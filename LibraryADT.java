@@ -1,7 +1,8 @@
+// Defines the standardized contract/operations that any Library system implementation must fulfill
 public interface LibraryADT {
     String addBook(int isbn, String title, String author);
     String borrowBook(int isbn);
-    String returnBook(int isbn); 
+    String returnBook(int isbn);
     String searchBook(String query); 
     String getFullHistory();
     String deleteBook(int isbn);
