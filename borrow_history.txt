@@ -1,0 +1,2 @@
+BORROWED: newbook1 (ISBN: 123)
+RETURNED: newbook1 (ISBN: 123)

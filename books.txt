@@ -1,0 +1,2 @@
+123|newbook1|author1|false
+234|book2|newauthor2|false

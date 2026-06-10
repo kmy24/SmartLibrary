@@ -11,82 +11,94 @@ public class Main {
         while (running) {
             System.out.println("\n--- SmartLibrary Menu ---");
             System.out.println("1. Add Book");
-            System.out.println("2. Search (BST)");
-            System.out.println("3. Borrow (Stack)");
-            System.out.println("4. History");
-            System.out.println("5. Exit");
+            System.out.println("2. Display All Books");
+            System.out.println("3. Search (ISBN, Title, or Author)");
+            System.out.println("4. Update Book");
+            System.out.println("5. Delete Book");
+            System.out.println("6. Borrow Book");
+            System.out.println("7. Return Book");         // NEW MENU OPTION
+            System.out.println("8. View History logs");   // SHIFTED
+            System.out.println("9. Exit");                // SHIFTED
             System.out.print("Choice: ");
 
-            // Read the entire line to prevent Scanner buffering issues
             String input = sc.nextLine().trim();
             int choice;
 
             try {
                 choice = Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid option. Please enter a number between 1 and 5.");
+                System.out.println("Invalid option. Enter a number between 1 and 9.");
                 continue;
             }
 
             switch (choice) {
-                case 1:
-                    handleAddBook(system, sc);
-                    break;
-                case 2:
-                    handleSearchBook(system, sc);
-                    break;
-                case 3:
-                    handleBorrowBook(system, sc);
-                    break;
-                case 4:
-                    System.out.println(system.getFullHistory());
-                    break;
-                case 5:
+                case 1: handleAddBook(system, sc); break;
+                case 2: System.out.println(system.displayAllBooks()); break;
+                case 3: handleSearchBook(system, sc); break;
+                case 4: handleUpdateBook(system, sc); break;
+                case 5: handleDeleteBook(system, sc); break;
+                case 6: handleBorrowBook(system, sc); break;
+                case 7: handleReturnBook(system, sc); break; // NEW CASE
+                case 8: System.out.println(system.getFullHistory()); break;
+                case 9: 
                     running = false;
-                    System.out.println("Exiting system. Goodbye!");
+                    System.out.println("Exiting system. Data has been saved. Goodbye!");
                     break;
                 default:
-                    System.out.println("Invalid option. Please select a number from 1 to 5.");
+                    System.out.println("Invalid option. Please select a number from 1 to 9.");
             }
         }
         sc.close();
     }
 
     private static void handleAddBook(LibrarySystem system, Scanner sc) {
-        System.out.print("Enter ISBN (Integer only): ");
-        int isbn;
+        System.out.print("Enter ISBN (Integer): ");
         try {
-            isbn = Integer.parseInt(sc.nextLine().trim());
+            int isbn = Integer.parseInt(sc.nextLine().trim());
+            System.out.print("Enter Title: ");
+            String title = sc.nextLine().trim();
+            System.out.print("Enter Author: ");
+            String author = sc.nextLine().trim();
+            
+            if (title.isEmpty() || author.isEmpty()) {
+                System.out.println("Input Error: Title and Author cannot be empty.");
+                return;
+            }
+            System.out.println(system.addBook(isbn, title, author));
         } catch (NumberFormatException e) {
             System.out.println("Input Error: ISBN must be a valid integer.");
-            return; // Abort this operation and return to main menu
         }
+    }
 
-        System.out.print("Enter Title: ");
-        String title = sc.nextLine().trim();
-        if (title.isEmpty()) {
-            System.out.println("Input Error: Title cannot be empty.");
-            return;
+    private static void handleUpdateBook(LibrarySystem system, Scanner sc) {
+        System.out.print("Enter ISBN of book to update: ");
+        try {
+            int isbn = Integer.parseInt(sc.nextLine().trim());
+            System.out.print("Enter New Title (leave blank to keep current): ");
+            String title = sc.nextLine().trim();
+            System.out.print("Enter New Author (leave blank to keep current): ");
+            String author = sc.nextLine().trim();
+            
+            System.out.println(system.updateBook(isbn, title, author));
+        } catch (NumberFormatException e) {
+            System.out.println("Input Error: ISBN must be a valid integer.");
         }
+    }
 
-        System.out.print("Enter Author: ");
-        String author = sc.nextLine().trim();
-        if (author.isEmpty()) {
-            System.out.println("Input Error: Author cannot be empty.");
-            return;
+    private static void handleDeleteBook(LibrarySystem system, Scanner sc) {
+        System.out.print("Enter ISBN of book to delete: ");
+        try {
+            int isbn = Integer.parseInt(sc.nextLine().trim());
+            System.out.println(system.deleteBook(isbn));
+        } catch (NumberFormatException e) {
+            System.out.println("Input Error: ISBN must be a valid integer.");
         }
-
-        System.out.println(system.addBook(isbn, title, author));
     }
 
     private static void handleSearchBook(LibrarySystem system, Scanner sc) {
-        System.out.print("Enter ISBN to search: ");
-        try {
-            int isbn = Integer.parseInt(sc.nextLine().trim());
-            System.out.println(system.searchBook(isbn));
-        } catch (NumberFormatException e) {
-            System.out.println("Input Error: ISBN must be a valid integer.");
-        }
+        System.out.print("Enter search term (ISBN, Title, or Author): ");
+        String query = sc.nextLine().trim();
+        System.out.println(system.searchBook(query));
     }
 
     private static void handleBorrowBook(LibrarySystem system, Scanner sc) {
@@ -94,6 +106,17 @@ public class Main {
         try {
             int isbn = Integer.parseInt(sc.nextLine().trim());
             System.out.println(system.borrowBook(isbn));
+        } catch (NumberFormatException e) {
+            System.out.println("Input Error: ISBN must be a valid integer.");
+        }
+    }
+
+    // NEW: Helper method to handle returning a book
+    private static void handleReturnBook(LibrarySystem system, Scanner sc) {
+        System.out.print("Enter ISBN to return: ");
+        try {
+            int isbn = Integer.parseInt(sc.nextLine().trim());
+            System.out.println(system.returnBook(isbn));
         } catch (NumberFormatException e) {
             System.out.println("Input Error: ISBN must be a valid integer.");
         }
