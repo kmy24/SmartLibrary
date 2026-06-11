@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-// Primary application entry point dealing with user console interactions
 public class Main {
     public static void main(String[] args) {
         LibrarySystem system = new LibrarySystem(); // Initiates the library database engine
@@ -17,11 +16,9 @@ public class Main {
             System.out.println("4. Update Book");
             System.out.println("5. Delete Book");
             System.out.println("6. Borrow Book");
-            System.out.println("7. Return Book");         // NEW MENU OPTION
-            System.out.println("8. View History logs");
-            // SHIFTED
+            System.out.println("7. Return Book");         
+            System.out.println("8. View History logs");            
             System.out.println("9. Exit");
-            // SHIFTED
             System.out.print("Choice: ");
 
             String input = sc.nextLine().trim();
@@ -45,7 +42,6 @@ public class Main {
                 case 5: handleDeleteBook(system, sc); break;
                 case 6: handleBorrowBook(system, sc); break;
                 case 7: handleReturnBook(system, sc); break;
-                // NEW CASE
                 case 8: System.out.println(system.getFullHistory());
                     break;
                 case 9: 

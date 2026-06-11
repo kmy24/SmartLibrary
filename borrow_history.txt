@@ -1,2 +1,5 @@
 BORROWED: newbook1 (ISBN: 123)
 RETURNED: newbook1 (ISBN: 123)
+BORROWED: Red Hawk (ISBN: 245)
+BORROWED: newbook1 (ISBN: 123)
+RETURNED: newbook1 (ISBN: 123)
